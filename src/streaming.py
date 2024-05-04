@@ -10,6 +10,8 @@ To show heartbeat, replace [options] by -b or --displayHeartBeat
 
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
 from optparse import OptionParser
 
@@ -23,12 +25,22 @@ def connect_to_stream():
     domainDict = { 'live' : 'stream-fxtrade.oanda.com',
                'demo' : 'stream-fxpractice.oanda.com' }
 
-    # Replace the following variables with your personal values 
-    environment = "demo" # Replace this 'live' if you wish to connect to the live environment 
-    domain = domainDict[environment] 
-    access_token = ''
-    account_id = ''
-    instruments = 'EUR_USD' 
+    load_dotenv()
+
+    
+    ACCOUNT_ID = os.getenv('ACCOUNT_ID')
+    ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
+
+   
+    if not ACCOUNT_ID or not ACCESS_TOKEN:
+        raise ValueError("ACCOUNT_ID or ACCESS_TOKEN is not set in the .env file")
+
+    
+    environment = "demo"  
+    domain = domainDict[environment]
+    access_token = ACCESS_TOKEN
+    account_id = ACCOUNT_ID
+    instruments = 'EUR_USD'
 
     try:
         s = requests.Session()
