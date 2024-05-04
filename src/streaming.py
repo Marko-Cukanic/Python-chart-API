@@ -26,8 +26,8 @@ def connect_to_stream():
     # Replace the following variables with your personal values 
     environment = "demo" # Replace this 'live' if you wish to connect to the live environment 
     domain = domainDict[environment] 
-    access_token = '9cff4ff4513e1f4d27b8ff4acdf7a833-e2c6a3604de7873ede1db51326c40262'
-    account_id = '10101126248000001'
+    access_token = ''
+    account_id = ''
     instruments = 'EUR_USD' 
 
     try:
