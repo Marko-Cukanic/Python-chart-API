@@ -6,22 +6,19 @@ from ib_insync import *
 import nest_asyncio
 nest_asyncio.apply()
 
+from streaming import demo, connect_to_stream  #
+
 
 def get_data(symbol, timeframe):
-    ib = IB()
-    ib.connect('127.0.0.1', 7497, clientId=13)
+    displayHeartbeat = True  # Set this to True to display heartbeats
+    streaming_data = demo(displayHeartbeat)
 
-    contract = Stock(symbol, 'SMART', 'USD')
-    bars = ib.reqHistoricalData(
-            contract,
-            endDateTime='',
-            durationStr='90 D',
-            barSizeSetting=timeframe,
-            whatToShow='TRADES',
-            useRTH=True,
-            formatDate=1)
-    ib.disconnect()
-    df = util.df(bars)
+    # Convert the streaming data to a pandas DataFrame
+    df = pd.DataFrame(streaming_data)
+
+    # Filter the DataFrame based on the symbol and timeframe
+    df = df[df['instrument'] == symbol]
+    # ... (add additional filtering based on timeframe if needed)
 
     return df
 
